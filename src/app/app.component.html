@@ -1,0 +1,42 @@
+<div *ngIf="isMobileLayout"> This is visible only on mobile </div>
+<br>
+
+<form [formGroup]="userForm" (ngSubmit)="send(userForm.value) ">
+	<label>Name </label>
+	<br>
+	<input type="text" formControlName="name">
+	<div *ngIf="userForm.get('name').touched && userForm.get('name').invalid" class="alert alert-danger">
+		<div *ngIf="userForm.get('name').errors.required" class="error-msg">Name is required.
+		</div>
+	</div>
+	<br>
+	<br>
+
+	<label>Phone </label>
+	<div>
+		<input formControlName="phone">
+		<div *ngIf="userForm.get('phone').touched && userForm.get('phone').invalid"
+			class="alert alert-danger error-msg">
+			<div *ngIf="userForm.get('phone').errors.required">Mobile Number is required.</div>
+			<div *ngIf="userForm.get('phone').errors.pattern">Please, Enter 10 digit Mobile Number.</div>
+		</div>
+	</div>
+	<br>
+	<label>Email </label>
+	<div>
+		<input formControlName="email" type="email" placeholder="someone@example.com">
+		<div *ngIf="userForm.get('email').invalid && userForm.get('email').dirty || userForm.get('email').touched"
+			class="alert alert-danger error-msg">
+			<div *ngIf="userForm.get('email').errors?.email || userForm.get('email').errors?.pattern">
+				Please, Enter valid email.
+			</div>
+			<div *ngIf="userForm.get('email').errors?.required">Email is required.</div>
+		</div>
+	</div>
+	<br>
+	<input color="primary" type="submit" [disabled]="!userForm.valid||disableSave"> &nbsp;
+	<button (click)="edit()" [disabled]="!userForm.valid"> Edit </button>
+</form>
+<br>
+
+<pre *ngIf="showSubmitobj">{{userForm.value | json}}</pre>
